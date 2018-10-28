@@ -8,15 +8,20 @@ spouses = {
 
 }
 testCases = [
-    "W A B AB",
-    "W B C BC",
-    "W C D DC",
-    "W D E DE",
-    "W E F EF",
-    "W F G FG",
-    "W AB BC ABC",
-    "W DE EF DEF",
-    "W EF FG EFG"
+    "E AA BB",
+    "E AAA BB",
+    "E AAAA BB",
+    "E AAAAA BB",
+    "E AAAAAA BB",
+    "E A B AB",
+    "E B C BC",
+    "E C D DC",
+    "E D E DE",
+    "E E F EF",
+    "E F G FG",
+    "E AB BC ABC",
+    "E DE EF DEF",
+    "E EF FG EFG"
 
 ]
 # for line in fileinput.input():
@@ -24,7 +29,8 @@ for x in testCases:
     # split the command into a list of strings
 
     command = x.split()
-
+    print(command)
+    print(len(command))
     # if the command has three parts, marriage without kid, print all of statements
     if len(command) == 3:
         pass
@@ -39,7 +45,7 @@ for x in testCases:
 
         # marriage statement
         if command[0] == 'E' or command[0] == 'e':
-            if command[1] in familyTree:
+            if command[1] in familyTree and command[1] in spouses:
                 # person already exists
                 temp = spouses[command[1]]
                 temp = temp.split()
@@ -57,7 +63,7 @@ for x in testCases:
                 # create new person
                 familyTree[command[1]] = 'no parent'
                 spouses[command[1]] = command[2]
-            if command[2] in familyTree:
+            if command[2] in familyTree and command[2] in spouses:
                 # person already exists
                 temp = spouses[command[1]]
                 temp = temp.split()
@@ -91,7 +97,7 @@ for x in testCases:
         # marriage statement
         if command[0] == 'E' or command[0] == 'e':
             # Repetition of the spouses for only two people
-            if command[1] in familyTree:
+            if command[1] in familyTree and command[1] in spouses:
                 # person already exists
                 temp = spouses[command[1]]
                 temp = temp.split()
@@ -109,7 +115,7 @@ for x in testCases:
                 # create new person
                 familyTree[command[1]] = 'no parent'
                 spouses[command[1]] = command[2]
-            if command[2] in familyTree:
+            if command[2] in familyTree and command[2] in spouses:
                 # person already exists
                 temp = spouses[command[1]]
                 temp = temp.split()
@@ -131,4 +137,5 @@ for x in testCases:
             familyTree[command[3]] = command[1]+' '+command[2]
 
     pass
-
+print(familyTree)
+print(spouses)
