@@ -1,9 +1,28 @@
 import fileinput
 
-familyTree
-for line in fileinput.input():
+familyTree = {
+    "Test": "test"
+}
+spouses = {
+    "Test": "test"
+
+}
+testCases = [
+    "W A B AB",
+    "W B C BC",
+    "W C D DC",
+    "W D E DE",
+    "W E F EF",
+    "W F G FG",
+    "W AB BC ABC",
+    "W DE EF DEF",
+    "W EF FG EFG"
+
+]
+# for line in fileinput.input():
+for line in testCases():
     # split the command into a list of strings
-    x = line;
+    x = line
     command = x.split()
 
     # if the command has three parts, marriage without kid, print all of statements
@@ -17,7 +36,19 @@ for line in fileinput.input():
             pass
         # marriage statement
         if command[0] == 'E' | command[0] == 'e':
-            pass
+            if command[1] in familyTree:
+                pass  # person already exists
+            else:
+                # create new person
+                familyTree[command[1]] = 'no parent'
+                spouses[command[1]] = command[2]
+            if command[2] in familyTree:
+                pass  # person already exists
+            else:
+                # create new person
+                familyTree[command[2]] = 'no parent'
+                spouses[command[2]] = command[1]
+                pass
 
     # if the command has four parts, marriage with kids, print true or false for relation
     if len(command) == 4:
