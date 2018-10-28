@@ -20,22 +20,22 @@ testCases = [
 
 ]
 # for line in fileinput.input():
-for line in testCases():
+for x in testCases:
     # split the command into a list of strings
-    x = line
+
     command = x.split()
 
     # if the command has three parts, marriage without kid, print all of statements
     if len(command) == 3:
         pass
         # is x a blank of y?
-        if command[0] == 'X' | command[0] == 'x':
+        if command[0] == 'X' or command[0] == 'x':
             pass
         # print all of relation
-        if command[0] == 'W' | command[0] == 'w':
+        if command[0] == 'W' or command[0] == 'w':
             pass
         # marriage statement
-        if command[0] == 'E' | command[0] == 'e':
+        if command[0] == 'E' or command[0] == 'e':
             if command[1] in familyTree:
                 pass  # person already exists
             else:
@@ -54,13 +54,13 @@ for line in testCases():
     if len(command) == 4:
         pass
         # is x a blank of y?
-        if command[0] == 'X' | command[0] == 'x':
+        if command[0] == 'X' or command[0] == 'x':
             pass
         # print all of relation
-        if command[0] == 'W' | command[0] == 'w':
+        if command[0] == 'W' or command[0] == 'w':
             pass
         # marriage statement
-        if command[0] == 'E' | command[0] == 'e':
+        if command[0] == 'E' or command[0] == 'e':
             pass
     pass
 
