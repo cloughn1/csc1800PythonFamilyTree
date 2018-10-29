@@ -1,11 +1,8 @@
 import fileinput
 
 familyTree = {
-    "Test": "test"
 }
 spouses = {
-    "Test": "test"
-
 }
 testCases = [
     "E AA BB",
@@ -14,6 +11,12 @@ testCases = [
     "E AAAAA BB",
     "E AAAAAA BB",
     "E A B AB",
+    "E A C AC",
+    "E A D AD",
+    "E A E AE",
+    "E A F AF",
+    "E A G AG",
+    "E A H AH",
     "E B C BC",
     "E C D DC",
     "E D E DE",
@@ -22,9 +25,25 @@ testCases = [
     "E AB BC ABC",
     "E DE EF DEF",
     "E EF FG EFG",
-    "W Ancestor EFG"
+    "E ABC DEF ABCDEF",
+    "E ABCDEF EFG SBCDEFG",
+    "E AC DC ACDC",
+    "E EF AD EFAD",
+    "E BC EFG BCEFG",
+    "W Spouse A",
+    "W Spouse BB",
+    "W Spouse EFG",
+    "W Ancestor EFG",
+    "W cousin EFG",
+    "W cousin ACDC",
+    "W sibling AB",
+    "W sibling FG",
+    "W child A",
+    "W child B",
+    "W child EF"
 
 ]
+
 # for line in fileinput.input():
 for x in testCases:
     # split the command into a list of strings
@@ -69,15 +88,104 @@ for x in testCases:
                     for j in range(0, len(ancestors)):
                         print(ancestors[j])
             if command[1] == 'Spouse' or command[1] == 'spouse':
-                pass
+                if command[2] in spouses:
+                    temp = spouses[command[2]].split()
+                    temp.sort()
+                    for i in range(0,len(temp)):
+                        print(temp[i])
             if command[1] == 'Cousin' or command[1] == 'cousin':
-                pass
+                cousins = []
+                listA = []
+                stack = []
+                listB = []
+                stackB = []
+                if command[2] in familyTree:
+                    if familyTree[command[2]] != 'no parent':
+                        parent = familyTree[command[2]].split()
+                        stack.append(parent[0])
+                        stack.append(parent[1])
+                        current = stack.pop()
+                        true = 1
+                        while true == 1:
+                            if current not in listA:
+                                listA.append(current)
+                            if familyTree[current] != 'no parent':
+                                parent = familyTree[current].split()
+                                stack.append(parent[0])
+                                stack.append(parent[1])
+                            if len(stack) == 0:
+                                break
+                            current = stack.pop()
+                        listA.sort()
+                    ListTemp = []
+                    for i in familyTree:
+                        # print(i)
+                        listB = []
+                        if i != command[2]:
+                            if familyTree[i] != 'no parent':
+                                parent = familyTree[i].split()
+                                stackB.append(parent[0])
+                                stackB.append(parent[1])
+                                current = stackB.pop()
+                                true = 1
+                                # print("--------------")
+                                while true == 1:
+                                    if current not in listB:
+                                        listB.append(current)
+                                    if familyTree[current] != 'no parent':
+                                        parent = familyTree[current].split()
+                                        stackB.append(parent[0])
+                                        stackB.append(parent[1])
+                                    if len(stackB) == 0:
+                                        break
+                                    current = stackB.pop()
+                                listB.sort()
+
+                        if command[2] not in listB and i not in listA:
+                            for j in listA:
+
+                                if j in listB:
+                                    if i not in cousins:
+                                        cousins.append(i)
+                            for k in listB:
+
+                                if k in listA:
+                                    if i not in cousins:
+                                        cousins.append(i)
+                    cousins.sort()
+                    for i in cousins:
+                        print(i)
             if command[1] == 'Sibling' or command[1] == 'sibling':
-                pass
+                siblings = []
+                if command[2] in familyTree:
+                    parentsA = familyTree[command[2]].split()
+                    for i in familyTree:
+                        if i != command[2]:
+                            parentsB = familyTree[i].split()
+                            for j in parentsB:
+                                if j in parentsA:
+                                    siblings.append(i)
+                siblings.sort()
+                for i in siblings:
+                    print(i)
             if command[1] == 'Child' or command[1] == 'child':
-                pass
+                kids = []
+                if command[2] in familyTree:
+                    for i in familyTree:
+                        if i != command[2]:
+                            parents = familyTree[i].split()
+                            if command[2] in parents:
+                                kids.append(i)
+                kids.sort()
+                for i in kids:
+                    print(i)
             if command[1] == 'Unrelated' or command[1] == 'unrelated':
-                pass
+                unrelated = []
+                if command[2] in familyTree:
+                    pass
+                unrelated.sort()
+                for i in unrelated:
+                    print(i)
 
         # marriage statement
         if command[0] == 'E' or command[0] == 'e':
