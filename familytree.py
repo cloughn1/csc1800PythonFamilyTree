@@ -67,17 +67,20 @@ for x in testCases:
                 ancestors.clear()
                 stack = ["temp"]
                 stack.clear()
+                # Person is not at top of the Family Tree
                 if familyTree[command[2]] != 'no parent':
                     parent = familyTree[command[2]].split()
                     stack.append(parent[0])
                     stack.append(parent[1])
+                    # focus on parent just popped off
                     current = stack.pop()
-                    true = 1;
+                    true = 1
                     while true == 1:
+                        # put current in ancestors
                         if current not in ancestors:
                             ancestors.append(current)
+                        # Stops when reach the top of family tree
                         if familyTree[current] != 'no parent':
-
                             parent = familyTree[current].split()
                             stack.append(parent[0])
                             stack.append(parent[1])
@@ -91,7 +94,7 @@ for x in testCases:
                 if command[2] in spouses:
                     temp = spouses[command[2]].split()
                     temp.sort()
-                    for i in range(0,len(temp)):
+                    for i in range(0, len(temp)):
                         print(temp[i])
             if command[1] == 'Cousin' or command[1] == 'cousin':
                 cousins = []
@@ -233,25 +236,72 @@ for x in testCases:
                 # create new person
                 familyTree[command[2]] = 'no parent'
                 spouses[command[2]] = command[1]
-            # ________________________________End of marriage add_________________________________________________________________
+            # _________________________End of marriage add_______________________________________________________
     # if the command has four parts, marriage with kids, print true or false for relation
     if len(command) == 4:
         pass
 
         # is x a blank of y?
         if command[0] == 'X' or command[0] == 'x':
+            answer = "No"
             if command[2] == 'Ancestor' or command[2] == 'ancestor':
+                ancestors = ["temp"]
+                ancestors.clear()
+                stack = ["temp"]
+                stack.clear()
+                # Not at the top of the tree
+                if familyTree[command[3]] != 'no parent':
+                    parent = familyTree[command[3]].split()
+                    stack.append(parent[0])
+                    stack.append(parent[1])
+                    current = stack.pop()
+                    true = 1
+                    while true == 1:
+                        if current not in ancestors:
+                            ancestors.append(current)
+                        if familyTree[current] != 'no parent':
+                            parent = familyTree[current].split()
+                            stack.append(parent[0])
+                            stack.append(parent[1])
+                        if len(stack) == 0:
+                            break
+                        current = stack.pop()
+                if command[1] in ancestors:
+                    answer = "Yes"
                 pass
             if command[2] == 'Spouse' or command[2] == 'spouse':
+                if command[1] in spouses[command[3]]:
+                    answer = "Yes"
                 pass
             if command[2] == 'Cousin' or command[2] == 'cousin':
                 pass
             if command[2] == 'Sibling' or command[2] == 'sibling':
+                siblings = []
+                if command[3] in familyTree:
+                    parentsA = familyTree[command[3]].split()
+                    for i in familyTree:
+                        if i != command[3]:
+                            parentsB = familyTree[i].split()
+                            for j in parentsB:
+                                if j in parentsA:
+                                    siblings.append(i)
+                if command[1] in siblings:
+                    answer = "Yes"
                 pass
             if command[2] == 'Child' or command[2] == 'child':
+                kids = []
+                if command[3] in familyTree:
+                    for i in familyTree:
+                        if i != command[3]:
+                            parents = familyTree[i].split()
+                            if command[3] in parents:
+                                kids.append(i)
+                if command[1] in kids:
+                    answer = "Yes"
                 pass
             if command[2] == 'Unrelated' or command[2] == 'unrelated':
                 pass
+            print(answer)
 
         # print all of relation
         if command[0] == 'W' or command[0] == 'w':
