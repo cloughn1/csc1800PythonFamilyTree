@@ -40,7 +40,16 @@ testCases = [
     "W sibling FG",
     "W child A",
     "W child B",
-    "W child EF"
+    "W child EF",
+    "X A Spouse B",  # should be yes
+    "X AA Spouse BB",  # should be yes
+    "X EFG Spouse A",  # should be yes
+    "X E Ancestor EFG",  # should be yes
+    "X EFG Ancestor EF",  # should be no
+    "X ABCDEF Cousin EFG",   # should be yes
+    "X AB Sibling BC",  # should be yes
+    "X AB Child A",  # should be yes
+    "X B Child BC"  # should be no
 
 ]
 
@@ -159,10 +168,17 @@ def get_cousins(name):
         return cous
 
 
-def get_related(name):
+def get_unrelated(name):
     relation = []
-    for i in get_ancestors(name):
+    unrelation = []
+    for i in familyTree:
         relation.append(i)
+    for j in relation:
+        if j not in get_ancestors(name) or j not in get_siblings(name) or j not in get_children(name) or j not in get_cousins(name):
+            unrelation.append(j)
+        if j not in spouses[name]:
+            unrelation.append(j)
+    return unrelation
 
 
 # for line in fileinput.input():
