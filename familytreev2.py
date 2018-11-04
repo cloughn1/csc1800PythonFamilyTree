@@ -45,13 +45,15 @@ testCases = [
     "X AB spouse BC",
     "X A child B",
     "X A parent AB",
+    "W Ancestor ABC",
     "X A ancestor ABC",
     "X F unrelated XYZ",
     "X F unrelated A",
     "X F unrelated FG"
 ]
 
-def getlistfrompeople (relation, persontwo) :
+
+def getlistfrompeople(relation, persontwo):
     ancestors = []
     children = []
     cousins = []
@@ -81,9 +83,11 @@ def getlistfrompeople (relation, persontwo) :
         ancestors.sort()
         return ancestors
     if relation == 'Spouse' or relation == 'spouse':
-        temp = spouses[persontwo].split()
-        temp.sort()
-        return temp
+        t = (spouses[persontwo]).split()
+        print(spouses[persontwo])
+        t.sort()
+        print(t)
+        return t
     if relation == 'Cousin' or relation == 'cousin':
         cousins = []
         listA = []
@@ -177,8 +181,9 @@ def getlistfrompeople (relation, persontwo) :
         unrelated = difflist(everyone, related)
         return unrelated
 
+
 def difflist(listone, listtwo):
-    #if i in listone is unique, keep it
+    # if i in listone is unique, keep it
     difflist = []
     for i in listone:
         if i not in listtwo:
@@ -186,47 +191,48 @@ def difflist(listone, listtwo):
     return difflist
 
 
-def ispersoninlist (person, relation, persontwo) :
+def ispersoninlist(person, relation, persontwo):
     if relation == 'Ancestor' or relation == 'ancestor':
-        ancestors = getlistfrompeople('ancestors', persontwo)
+        ancestors = getlistfrompeople('ancestors', person)
         if ancestors is None:
             return False
-        if person in ancestors:
+        if persontwo in ancestors:
             return True
         return False
     if relation == 'Spouse' or relation == 'spouse':
-        spouses = getlistfrompeople('spouses', persontwo)
-        if spouses is None:
+        # spousesList = getlistfrompeople('spouses', person)
+        spousesList = (spouses[person]).split()
+        if spousesList is None:
             return False
-        if person in spouses:
+        if persontwo in spousesList:
             return True
         return False
     if relation == 'Cousin' or relation == 'cousin':
-        cousins = getlistfrompeople('cousin', persontwo)
+        cousins = getlistfrompeople('cousin', person)
         if cousins is None:
             return False
-        if person in cousins:
+        if persontwo in cousins:
             return True
         return False
     if relation == 'Sibling' or relation == 'sibling':
-        siblings = getlistfrompeople('siblings', persontwo)
+        siblings = getlistfrompeople('siblings', person)
         if siblings is None:
             return False
-        if person in siblings:
+        if persontwo in siblings:
             return True
         return False
     if relation == 'Child' or relation == 'child':
-        children = getlistfrompeople('child', persontwo)
+        children = getlistfrompeople('child', person)
         if children is None:
             return False
-        if person in children:
+        if persontwo in children:
             return True
         return False
     if relation == 'Unrelated' or relation == 'unrelated':
-        unrelated = getlistfrompeople('unrelated', persontwo)
+        unrelated = getlistfrompeople('unrelated', person)
         if unrelated is None:
             return False
-        if person in unrelated:
+        if persontwo in unrelated:
             return True
         return False
 
@@ -269,7 +275,7 @@ for x in testCases:
                             inside = 1
                     if inside == 0:
                         # if the search failed to find the spouse, add them
-                        temp = spouses[command[1]]+' '+command[2]
+                        temp = spouses[command[1]] + ' ' + command[2]
                         spouses[command[1]] = temp
                 else:
                     spouses[command[1]] = command[2]
@@ -291,7 +297,7 @@ for x in testCases:
                             inside = 1
                     if inside == 0:
                         # if the search failed to find the spouse, add them
-                        temp = spouses[command[2]]+' '+command[1]
+                        temp = spouses[command[2]] + ' ' + command[1]
                         spouses[command[2]] = temp
                 else:
                     spouses[command[2]] = command[1]
@@ -299,14 +305,14 @@ for x in testCases:
                 # create new person
                 familyTree[command[2]] = 'no parent'
                 spouses[command[2]] = command[1]
-            # ________________________________End of marriage add_________________________________________________________________
+            # ________________________________End of marriage add______________________________________________________
     # if the command has four parts, marriage with kids, print true or false for relation
     if len(command) == 4:
         pass
 
         # is x a blank of y?
         if command[0] == 'X' or command[0] == 'x':
-            if (ispersoninlist(command[1], command[2], command[3])):
+            if ispersoninlist(command[1], command[2], command[3]):
                 print('Yes')
             else:
                 print('No')
@@ -333,7 +339,7 @@ for x in testCases:
                             inside = 1
                     if inside == 0:
                         # if the search failed to find the spouse, add them
-                        temp = spouses[command[1]]+' '+command[2]
+                        temp = spouses[command[1]] + ' ' + command[2]
                         spouses[command[1]] = temp
                 else:
                     spouses[command[1]] = command[2]
@@ -355,7 +361,7 @@ for x in testCases:
                             inside = 1
                     if inside == 0:
                         # if the search failed to find the spouse, add them
-                        temp = spouses[command[2]]+' '+command[1]
+                        temp = spouses[command[2]] + ' ' + command[1]
                         spouses[command[2]] = temp
                 else:
                     spouses[command[2]] = command[1]
@@ -364,7 +370,7 @@ for x in testCases:
                 familyTree[command[2]] = 'no parent'
                 spouses[command[2]] = command[1]
             # both parents are now created and in the trees
-            familyTree[command[3]] = command[1]+' '+command[2]
+            familyTree[command[3]] = command[1] + ' ' + command[2]
 
     pass
 
