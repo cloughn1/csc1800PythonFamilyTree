@@ -178,6 +178,7 @@ def getlistfrompeople (relation, persontwo) :
         return unrelated
 
 def difflist(listone, listtwo):
+    #if i in listone is unique, keep it
     difflist = []
     for i in listone:
         if i not in listtwo:
